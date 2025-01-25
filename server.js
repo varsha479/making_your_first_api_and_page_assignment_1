@@ -29,11 +29,35 @@ Example Responses:
     "welcomeMessage": "Hello, John! Welcome to our assistant app!",
     "dayMessage": "Have a wonderful day!"
   }
-
-Add the required logic below to complete the API.
 */
 
+// Define the GET endpoint for /assistant/greet
+app.get('/assistant/greet', (req, res) => {
+  // Get the 'name' query parameter or default to 'Guest'
+  const name = req.query.name || "Guest";
+
+  // Define messages for specific days
+  const dayMessages = {
+    Monday: "Happy Monday! Start your week with energy!",
+    Friday: "It's Friday! The weekend is near!",
+  };
+
+  // Get the current day of the week
+  const currentDay = new Date().toLocaleString("en-US", { weekday: "long" });
+
+  // Provide a default message for other days
+  const cheerfulMessage = dayMessages[currentDay] || "Have a wonderful day!";
+
+  // Send the JSON response
+  res.json({
+    welcomeMessage: `Hello, ${name}! Welcome to our assistant app!`,
+    dayMessage: cheerfulMessage,
+  });
+});
+
+// Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Virtual Assistant API is running on http://localhost:${PORT}`);
-});
+  console.log(`Virtual Assistant API is running on http://localhost:${PORT}`);
+})
+
